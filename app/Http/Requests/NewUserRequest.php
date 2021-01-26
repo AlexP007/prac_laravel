@@ -25,7 +25,7 @@ class NewUserRequest extends FormRequest
      */
     public function rules()
     {
-        $rules =  [
+        return [
             'name'                  => 'required|string|max:255',
             'surname'               => 'required|string|max:255',
             'email'                 => 'required|email|unique:users',
@@ -36,10 +36,6 @@ class NewUserRequest extends FormRequest
             ],
             'password_confirmation' => 'required',
         ];
-        switch ($this->getMethod()) {
-            case 'POST':
-                return $rules;
-        }
     }
 
     protected function failedValidation(Validator $validator)
@@ -50,7 +46,7 @@ class NewUserRequest extends FormRequest
             ], 422);
         } else {
             $response = response([
-               'error' => 'Request should be json',
+               'errors' => ['Content-Type' => ['Should be json']],
             ], 415);
         }
 

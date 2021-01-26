@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckAuth;
 use App\Http\Middleware\RequestUserResolver;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -43,6 +44,8 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            CheckAuth::class,
+            RequestUserResolver::class,
         ],
         'auth_group' => [],
     ];
@@ -55,7 +58,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.check' => CheckAuth::class,
         'auth.user' => RequestUserResolver::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
