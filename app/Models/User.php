@@ -50,4 +50,15 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public function token(): string
+    {
+        return $this->api_token;
+    }
+
+    public function revokeToken(): void
+    {
+        $this->api_token = null;
+        $this->api_token_generated_at = null;
+        $this->save();
+    }
 }
