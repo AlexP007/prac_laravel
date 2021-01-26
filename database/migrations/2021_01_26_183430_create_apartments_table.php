@@ -26,11 +26,9 @@ class CreateApartmentsTable extends Migration
             $table->string('metro', '512');
             $table->unsignedBigInteger('price')->nullable(false);
             $table->text('about');
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id');
 
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
