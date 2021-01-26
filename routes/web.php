@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    dd(User::where('api_token', '40VY4azHcsk3Ktmav1ElWWA04pmvjucgwOrbGeXh7efbFND5Vmx91lr4w6mc')->first());
 });
