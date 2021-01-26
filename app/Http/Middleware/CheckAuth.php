@@ -6,7 +6,6 @@ use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Date;
 
 class CheckAuth
 {
@@ -21,7 +20,7 @@ class CheckAuth
     {
         $token = $request->bearerToken();
         $user = User::where('api_token', $token)
-            ->where('api_token_generated_at', '>=', Date::now()->add('-15minutes')->format('Y-m-d H:i:s'))
+            ->where('api_token_generated_at', '>=', now()->add('-15minutes')->format('Y-m-d H:i:s'))
             ->first();
         if (!$user) {
             $response = response([
