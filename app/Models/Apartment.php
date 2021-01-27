@@ -26,4 +26,9 @@ class Apartment extends Model
     {
         return $this->hasMany(Image::class);
     }
+
+    public function checkUserId(int $userId): bool
+    {
+        return $this->user_id === $userId;
+    }
 }

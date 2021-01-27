@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Http\Requests\ApartmentRequest;
 use App\Models\Apartment;
-use Illuminate\Http\Response;
-use Webmozart\Assert\Assert;
+use Illuminate\Http\{Response, Request};
 
 class ApartmentController extends Controller
 {
@@ -44,7 +44,7 @@ class ApartmentController extends Controller
      */
     public function update(ApartmentRequest $request, Apartment $apartment)
     {
-        if ($request->user()->id !== $apartment->user_id) {
+        if (!$apartment->checkUserId($request->user()->id)) {
             return response([
                 'errors' => ['user' => ['Not valid user']]
             ], 403);
@@ -58,11 +58,19 @@ class ApartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param Apartment $apartment
      * @return Response
+     * @throws Exception
      */
-    public function destroy(Apartment $apartment)
+    public function destroy(Request $request, Apartment $apartment)
     {
-        //
+        if (!$apartment->checkUserId($request->user()->id)) {
+            return response([
+                'errors' => ['user' => ['Not valid user']]
+            ], 403);
+        }
+        $apartment->delete();
+        return response('', 204);
     }
 }
