@@ -22,12 +22,6 @@ class Apartment extends Model
         'rooms' => Rooms::class,
     ];
 
-    public function __construct($userId, array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->user_id = $userId;
-    }
-
     public function images()
     {
         return $this->hasMany(Image::class);

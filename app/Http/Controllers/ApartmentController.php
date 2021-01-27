@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ApartmentRequest;
 use App\Models\Apartment;
 use Illuminate\Http\Response;
+use Webmozart\Assert\Assert;
 
 class ApartmentController extends Controller
 {
@@ -26,7 +27,8 @@ class ApartmentController extends Controller
      */
     public function store(ApartmentRequest $request): Response
     {
-        $apartment = new Apartment($request->user()->id, $request->all());
+        $apartment = new Apartment($request->all());
+        $apartment->user_id = $request->user()->id;
         $apartment->save();
         return response([
             'data' => $apartment,
@@ -42,7 +44,15 @@ class ApartmentController extends Controller
      */
     public function update(ApartmentRequest $request, Apartment $apartment)
     {
-        //
+        if ($request->user()->id !== $apartment->user_id) {
+            return response([
+                'errors' => ['user' => ['Not valid user']]
+            ], 403);
+        }
+        $apartment->update($request->all());
+        return response([
+            'data' => $apartment,
+        ]);
     }
 
     /**
