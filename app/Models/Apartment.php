@@ -22,6 +22,15 @@ class Apartment extends Model
         'rooms' => Rooms::class,
     ];
 
+    public static function boot() {
+        parent::boot();
+        self::deleting(function($apartment) {
+            $apartment->images()->each(function($image) {
+                $image->delete();
+            });
+        });
+    }
+
     public function images()
     {
         return $this->hasMany(Image::class);
