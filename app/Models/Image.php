@@ -10,6 +10,12 @@ class Image extends Model
     use HasFactory;
 
     protected $fillable = ['path', 'url'];
+    protected $hidden = [
+        'apartment_id',
+        'updated_at',
+        'created_at',
+        'path',
+    ];
 
     public function apartment()
     {

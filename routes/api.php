@@ -17,5 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test', fn() => ['success' => true]);
 
 // Apartment
-Route::resource('apartment', 'ApartmentController')->except(['create', 'edit', 'show']);
+Route::resource('apartment', 'ApartmentController')->except(['create', 'edit']);
 Route::post('/apartment/{apartment}/image', 'ApartmentController@imageSave');

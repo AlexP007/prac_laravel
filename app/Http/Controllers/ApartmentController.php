@@ -22,6 +22,25 @@ class ApartmentController extends Controller
         //
     }
 
+    public function show(Request $request, $id)
+    {
+        $apartment = Apartment::with('images')->find($id);
+        if (!$apartment) {
+            return response([
+                'errors' => ['apartment' => ['Bad Request']],
+            ], 400);
+        }
+        if (!$apartment->checkUserId($request->user()->id)) {
+            return response([
+                'errors' => ['user' => ['Not valid user']]
+            ], 403);
+        }
+
+        return response([
+            'data' => $apartment,
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -45,8 +64,14 @@ class ApartmentController extends Controller
      * @param Apartment $apartment
      * @return Response
      */
-    public function update(ApartmentRequest $request, Apartment $apartment)
+    public function update(ApartmentRequest $request, $id)
     {
+        $apartment = Apartment::find($id);
+        if (!$apartment) {
+            return response([
+                'errors' => ['apartment' => ['Bad Request']],
+            ], 400);
+        }
         if (!$apartment->checkUserId($request->user()->id)) {
             return response([
                 'errors' => ['user' => ['Not valid user']]
@@ -79,6 +104,12 @@ class ApartmentController extends Controller
 
     public function imageSave(Request $request, Apartment $apartment)
     {
+        if (!$apartment->checkUserId($request->user()->id)) {
+            return response([
+                'errors' => ['user' => ['Not valid user']]
+            ], 403);
+        }
+
         $validator = Validator::make($request->all(), [
             'image' => 'required|image:jpeg,png,jpg,gif,svg|max:4096'
         ]);
