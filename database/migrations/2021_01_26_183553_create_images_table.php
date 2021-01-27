@@ -17,6 +17,7 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->foreignId('apartment_id');
             $table->string('path');
+            $table->string('url');
             $table->timestamps();
         });
     }

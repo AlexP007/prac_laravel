@@ -18,3 +18,4 @@ Route::get('/test', fn() => ['success' => true]);
 
 // Apartment
 Route::resource('apartment', 'ApartmentController')->except(['create', 'edit', 'show']);
+Route::post('/apartment/{apartment}/image', 'ApartmentController@imageSave');

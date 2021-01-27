@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use Exception;
 use App\Http\Requests\ApartmentRequest;
 use App\Models\Apartment;
 use Illuminate\Http\{Response, Request};
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ApartmentController extends Controller
 {
@@ -72,5 +75,36 @@ class ApartmentController extends Controller
         }
         $apartment->delete();
         return response('', 204);
+    }
+
+    public function imageSave(Request $request, Apartment $apartment)
+    {
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image:jpeg,png,jpg,gif,svg|max:4096'
+        ]);
+
+        if ($validator->fails()) {
+            return response([
+                'errors' => $validator->messages(),
+            ], 403);
+        }
+
+        if (!$apartment->id) {
+            return response([
+                'errors' => ['apartment' => ["apartment doesn\t exists"]],
+            ], 403);
+        }
+
+        $uploadFolder = 'apartments';
+        $image = $request->file('image');
+        $path = $image->store($uploadFolder, 'public');
+        $url = Storage::disk('public')->url($path);
+
+        $image = new Image(['path' => $path, 'url' => $url]);
+        $apartment->images()->save($image);
+
+        return response([
+            'data' => ['url' => $url]
+        ]);
     }
 }
