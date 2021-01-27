@@ -23,7 +23,7 @@ class CreateApartmentsTable extends Migration
             $table->float('meters', 7, 1);
             $table->string('city', '512');
             $table->string('address', '512');
-            $table->string('metro', '512');
+            $table->string('metro', '512')->nullable();
             $table->unsignedBigInteger('price');
             $table->text('about')->nullable();
             $table->foreignId('user_id');

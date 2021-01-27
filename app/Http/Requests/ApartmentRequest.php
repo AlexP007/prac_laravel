@@ -36,7 +36,7 @@ class ApartmentRequest extends FormRequest
             'meters' => 'required|numeric',
             'city' => 'required|max:512',
             'address' => 'required|max:512',
-            'metro' => 'required|max:512',
+            'metro' => 'max:512',
             'price' => 'required|integer',
             'about' => 'max:64000'
         ];
