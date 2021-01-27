@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\Rooms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Apartment extends Model
 {
@@ -26,6 +27,7 @@ class Apartment extends Model
         parent::boot();
         self::deleting(function($apartment) {
             $apartment->images()->each(function($image) {
+                Storage::disk('public')->delete($image->path);
                 $image->delete();
             });
         });
