@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Casts\Rooms;
+use App\Models\RoomsValue;
 
 class ApartmentRequest extends FormRequest
 {
@@ -28,7 +28,7 @@ class ApartmentRequest extends FormRequest
             'rooms' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                if (!Rooms::isValid($value)) {
+                if (!RoomsValue::isValid($value)) {
                     $fail('The '.$attribute.' should be 1,2,3,4,5 or >5');
                 }
             }],

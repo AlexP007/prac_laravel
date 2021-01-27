@@ -12,9 +12,21 @@ class Apartment extends Model
 
     protected $guarded = ['user_id'];
 
+    protected $hidden = [
+        'user_id',
+        'updated_at',
+        'created_at',
+    ];
+
     protected $casts = [
         'rooms' => Rooms::class,
     ];
+
+    public function __construct($userId, array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->user_id = $userId;
+    }
 
     public function images()
     {

@@ -3,7 +3,7 @@
 namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use MyCLabs\Enum\Enum;
+use App\Models\RoomsValue;
 
 /**
  * Class Rooms
@@ -16,7 +16,7 @@ use MyCLabs\Enum\Enum;
  * @method static Rooms Five()
  * @method static Rooms More()
  */
-class Rooms extends Enum implements CastsAttributes
+class Rooms implements CastsAttributes
 {
     private const ONE = '1';
     private const TWO = '2';
@@ -32,11 +32,11 @@ class Rooms extends Enum implements CastsAttributes
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     * @return Rooms
+     * @return RoomsValue
      */
-    public function get($model, $key, $value, $attributes): Rooms
+    public function get($model, $key, $value, $attributes): RoomsValue
     {
-        return new static($value);
+        return new RoomsValue($value);
     }
 
     /**
@@ -44,12 +44,12 @@ class Rooms extends Enum implements CastsAttributes
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
-     * @param  Rooms  $value
+     * @param  string  $value
      * @param  array  $attributes
      * @return string
      */
     public function set($model, $key, $value, $attributes): string
     {
-        return $value->getValue();
+        return $value;
     }
 }

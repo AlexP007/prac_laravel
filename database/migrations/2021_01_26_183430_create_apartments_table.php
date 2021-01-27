@@ -19,13 +19,13 @@ class CreateApartmentsTable extends Migration
             $table->collation = 'utf8mb4_unicode_ci';
 
             $table->id();
-            $table->enum('rooms', ['1', '2', '3', '4', '5', '>5'])->nullable(false);
-            $table->float('meters', 7, 1)->nullable(false);
-            $table->string('city', '512')->nullable(false);
-            $table->string('address', '512')->nullable(false);
+            $table->enum('rooms', ['1', '2', '3', '4', '5', '>5']);
+            $table->float('meters', 7, 1);
+            $table->string('city', '512');
+            $table->string('address', '512');
             $table->string('metro', '512');
-            $table->unsignedBigInteger('price')->nullable(false);
-            $table->text('about');
+            $table->unsignedBigInteger('price');
+            $table->text('about')->nullable();
             $table->foreignId('user_id');
 
             $table->timestamps();
@@ -39,10 +39,6 @@ class CreateApartmentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('apartments', function (Blueprint $table) {
-            $table->dropForeign('user_id');
-        });
-
         Schema::dropIfExists('apartments');
     }
 }
