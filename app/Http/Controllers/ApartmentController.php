@@ -9,6 +9,7 @@ use App\Models\Apartment;
 use Illuminate\Http\{Response, Request};
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ApartmentController extends Controller
 {
@@ -30,11 +31,8 @@ class ApartmentController extends Controller
                 'errors' => ['apartment' => ['Bad Request']],
             ], 400);
         }
-        if (!$apartment->checkUserId($request->user()->id)) {
-            return response([
-                'errors' => ['user' => ['Not valid user']]
-            ], 403);
-        }
+
+        $this->checkUserId($apartment, $request->user()->id);
 
         return response([
             'data' => $apartment,
@@ -72,11 +70,7 @@ class ApartmentController extends Controller
                 'errors' => ['apartment' => ['Bad Request']],
             ], 400);
         }
-        if (!$apartment->checkUserId($request->user()->id)) {
-            return response([
-                'errors' => ['user' => ['Not valid user']]
-            ], 403);
-        }
+        $this->checkUserId($apartment, $request->user()->id);
         $apartment->update($request->all());
         return response([
             'data' => $apartment,
@@ -93,22 +87,14 @@ class ApartmentController extends Controller
      */
     public function destroy(Request $request, Apartment $apartment)
     {
-        if (!$apartment->checkUserId($request->user()->id)) {
-            return response([
-                'errors' => ['user' => ['Not valid user']]
-            ], 403);
-        }
+        $this->checkUserId($apartment, $request->user()->id);
         $apartment->delete();
         return response('', 204);
     }
 
     public function imageSave(Request $request, Apartment $apartment)
     {
-        if (!$apartment->checkUserId($request->user()->id)) {
-            return response([
-                'errors' => ['user' => ['Not valid user']]
-            ], 403);
-        }
+        $this->checkUserId($apartment, $request->user()->id);
 
         $validator = Validator::make($request->all(), [
             'image' => 'required|image:jpeg,png,jpg,gif,svg|max:4096'
@@ -137,5 +123,14 @@ class ApartmentController extends Controller
         return response([
             'data' => ['url' => $url]
         ]);
+    }
+
+    private function checkUserId(Apartment $apartment, int $id): void
+    {
+        if (!$apartment->checkUserId($id)) {
+            throw new HttpResponseException(response([
+                'errors' => ['user' => ['Not valid user']]
+            ], 403));
+        }
     }
 }
