@@ -92,12 +92,18 @@ curl -v \
 -H "Authorization: Bearer Cyo5zZEj95K8sHq4ObYvbnEftMGC6UkjiB2OrFOZNvd3nVrhdnaD2YBJLZgE" \
 https://prac.alexp007.ru/api/apartments/3
 
-*all to user*
+*all by user*
 
 curl -v \
 -H "Accept: application/json" \
 -H "Authorization: Bearer NUBKkcoKOYVGVX72NXAGaLvVOoDMIskQFN1gh471wr9QnvWvi3HE3iKoq5zV" \
 https://prac.alexp007.ru/api/apartments
+
+*all*
+
+curl -v \
+-H "Accept: application/json" \
+https://prac.alexp007.ru/api/apartments/all?order=desc&price\[from\]=45000&price\[to\]=550000
 
 *delete*
 

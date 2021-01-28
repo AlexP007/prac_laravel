@@ -13,8 +13,43 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ApartmentController extends Controller
 {
+    public function all(Request $request)
+    {
+        if ($request->order === 'desc') {
+            $order = 'desc';
+        } else {
+            $order = 'asc';
+        }
+
+        $paginate = Apartment::orderBy('price', $order)
+            ->when($request->get('price'), function ($query, $price) {
+                $from = $price['from'] ?? null;
+                $to = $price['to'] ?? null;
+                if ($from > 0 && $to > 0) {
+                    return $query->whereBetween('price', [$from, $to]);
+                }
+                if (is_null($from) && $to > 0) {
+                    return $query->where('price', '<=', $to);
+                }
+                if ($from > 0 && is_null($to)) {
+                    return $query->where('price', '>=', $from);
+                }
+            })
+            ->paginate(20);
+        $body = [
+            'meta' => [
+                'page' => $paginate->currentPage(),
+                'totalPages' => $paginate->lastPage(),
+                'nextPage' => $paginate->nextPageUrl(),
+                'prevPage' => $paginate->previousPageUrl(),
+            ],
+            'data' => $paginate->items(),
+        ];
+        return response($body);
+    }
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource by concrete user.
      *
      * @param Request $request
      * @return Response
