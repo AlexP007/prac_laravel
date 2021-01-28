@@ -61,4 +61,9 @@ class User extends Authenticatable
         $this->api_token_generated_at = null;
         $this->save();
     }
+
+    public function apartments()
+    {
+        return $this->hasMany(Apartment::class);
+    }
 }

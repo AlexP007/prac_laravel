@@ -16,11 +16,22 @@ class ApartmentController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $paginate = $request->user()->apartments()->paginate(20);
+        $body = [
+            'meta' => [
+                'page' => $paginate->currentPage(),
+                'totalPages' => $paginate->lastPage(),
+                'nextPage' => $paginate->nextPageUrl(),
+                'prevPage' => $paginate->previousPageUrl(),
+            ],
+            'data' => $paginate->items(),
+        ];
+        return response($body);
     }
 
     public function show(Request $request, $id)
