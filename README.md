@@ -26,6 +26,17 @@ curl -v -d '{
 -H "Accept: application/json" \
 https://prac.alexp007.ru/login
 
+curl -v -d '{
+"name":"MAlex",
+"surname": "Panteleev",
+"password": "mYSecre34_",
+"password_confirmation": "mYSecre34_"
+}' \
+-H "Content-Type: application/json" \
+-H "Accept: application/json" \
+-H "Authorization: Bearer GB9meoGcs3yvwwQ7MY0xKGiNSoJnzh4UYxERJGHXd4AunW5uYnwfwVSWPVTt" \
+https://prac.alexp007.ru/update
+
 curl -H "Authorization: Bearer AdZlpfsOUTPJL3SpvUvXp4aHZiwvvmzsYSKurxknNg3TMByzrLlvFefWnN2" https://prac.alexp007.ru/api/test
 
 ## Apartment
@@ -40,7 +51,7 @@ curl -v -d '{
 }' \
 -H "Content-Type: application/json" \
 -H "Accept: application/json" \
--H "Authorization: Bearer jolAgDo53xLbefTtXJagu9eL57684AHy3qAe1qWzLBGPWwkx02lKA7ckQdE2" \
+-H "Authorization: Bearer Cyo5zZEj95K8sHq4ObYvbnEftMGC6UkjiB2OrFOZNvd3nVrhdnaD2YBJLZgE" \
 https://prac.alexp007.ru/api/apartment
 
 curl -v -X PATCH -d '{
@@ -53,22 +64,22 @@ curl -v -X PATCH -d '{
 }' \
 -H "Content-Type: application/json" \
 -H "Accept: application/json" \
--H "Authorization: Bearer jolAgDo53xLbefTtXJagu9eL57684AHy3qAe1qWzLBGPWwkx02lKA7ckQdE2" \
+-H "Authorization: Bearer Cyo5zZEj95K8sHq4ObYvbnEftMGC6UkjiB2OrFOZNvd3nVrhdnaD2YBJLZgE" \
 https://prac.alexp007.ru/api/apartment/1
 
 curl \
 -H "Accept: application/json" \
--H "Authorization: Bearer lEGiH4LXskI0eil42HhLKWWIg1OpZgipdaN7t87sXDLxyk4Y6hs5HOKS3hxp" \
+-H "Authorization: Bearer Cyo5zZEj95K8sHq4ObYvbnEftMGC6UkjiB2OrFOZNvd3nVrhdnaD2YBJLZgE" \
 -F "image=@/Users/alexanderpanteleev/Desktop/web/images/1.jpg" \
-https://prac.alexp007.ru/api/apartment/1/image
+https://prac.alexp007.ru/api/apartment/3/image
 
 curl -v \
 -H "Accept: application/json" \
--H "Authorization: Bearer lEGiH4LXskI0eil42HhLKWWIg1OpZgipdaN7t87sXDLxyk4Y6hs5HOKS3hxp" \
-https://prac.alexp007.ru/api/apartment/1
+-H "Authorization: Bearer Cyo5zZEj95K8sHq4ObYvbnEftMGC6UkjiB2OrFOZNvd3nVrhdnaD2YBJLZgE" \
+https://prac.alexp007.ru/api/apartment/3
 
 curl -v -X DELETE \
 -H "Content-Type: application/json" \
 -H "Accept: application/json" \
--H "Authorization: Bearer lEGiH4LXskI0eil42HhLKWWIg1OpZgipdaN7t87sXDLxyk4Y6hs5HOKS3hxp" \
-https://prac.alexp007.ru/api/apartment/1
+-H "Authorization: Bearer Cyo5zZEj95K8sHq4ObYvbnEftMGC6UkjiB2OrFOZNvd3nVrhdnaD2YBJLZgE" \
+https://prac.alexp007.ru/api/apartment/3

@@ -29,7 +29,8 @@ class NewUserRequest extends FormRequest
             'name'                  => 'required|string|max:255',
             'surname'               => 'required|string|max:255',
             'email'                 => 'required|email|unique:users',
-            'password'              => ['required',
+            'password'              => [
+                                        'required',
                                         'min:6',
                                         'regex:/^.*(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!_\-$%]).*$/',
                                         'confirmed',

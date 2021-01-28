@@ -33,6 +33,25 @@ class UserController extends Controller
         }
     }
 
+    public function update(Request $request)
+    {
+        $request->validate([
+            'name'                  => 'string|max:255',
+            'surname'               => 'string|max:255',
+            'email'                 => 'email|unique:users',
+            'password'              => [
+                'min:6',
+                'regex:/^.*(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!_\-$%]).*$/',
+                'confirmed',
+            ],
+        ]);
+        $request['password'] = Hash::make($request['password']);
+        $user = $request->user();
+        $user->update($request->all());
+        $user->generateToken();
+        return response(['data' => $user], 200);
+    }
+
     public function logout(Request $request)
     {
         $request->user()->revokeToken();
