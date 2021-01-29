@@ -16,7 +16,7 @@ curl -v -d '{
 }' \
 -H "Content-Type: application/json" \
 -H "Accept: application/json" \
-https://prac.alexp007.ru/register
+https://prac.alexp007.ru/auth/register
 
 *update*
 
@@ -29,7 +29,7 @@ curl -v -d '{
 -H "Content-Type: application/json" \
 -H "Accept: application/json" \
 -H "Authorization: Bearer GB9meoGcs3yvwwQ7MY0xKGiNSoJnzh4UYxERJGHXd4AunW5uYnwfwVSWPVTt" \
-https://prac.alexp007.ru/update
+https://prac.alexp007.ru/auth/update
 
 *login*
 
@@ -39,11 +39,11 @@ curl -v -d '{
 }' \
 -H "Content-Type: application/json" \
 -H "Accept: application/json" \
-https://prac.alexp007.ru/login
+https://prac.alexp007.ru/auth/login
 
 *logout*
 
-curl -v -d "name:alex" -H "Authorization: Bearer MgGt4KwA6op3aeMg7COahx74wuIhZTTuEI9vIwIstqDNK6uN0QExIcxvmoqd" https://prac.alexp007.ru/logout
+curl -v -d "name:alex" -H "Authorization: Bearer MgGt4KwA6op3aeMg7COahx74wuIhZTTuEI9vIwIstqDNK6uN0QExIcxvmoqd" https://prac.alexp007.ru/auth/logout
 
 ## Apartments
 
