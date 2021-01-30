@@ -13,4 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any}', fn() => view('spa'));
+Route::get('/{any}', fn() => view('spa'))->where('any', '.*');
