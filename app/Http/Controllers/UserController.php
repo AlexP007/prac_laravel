@@ -24,7 +24,7 @@ class UserController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $user->generateToken();
-                return response(['data' => ['token' => $user->token()]]);
+                return response(['data' => $user]);
             } else {
                 return response(['data' => ['msg' => 'Password missmatch']], 422);
             }

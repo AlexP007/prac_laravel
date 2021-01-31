@@ -78,8 +78,6 @@ class ApartmentController extends Controller
             ], 400);
         }
 
-        $this->checkUserId($apartment, $request->user()->id);
-
         return response([
             'data' => $apartment,
         ]);
