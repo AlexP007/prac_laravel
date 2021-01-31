@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 // Apartment
 Route::get('/apartments/all', 'ApartmentController@all');
+Route::get('/apartments/{id}', 'ApartmentController@show');
 Route::middleware('auth.check')->group(function() {
-    Route::resource('apartments', 'ApartmentController')->except(['create', 'edit']);
+    Route::resource('apartments', 'ApartmentController')->except(['create', 'edit', 'show']);
     Route::post('/apartments/{apartment}/image', 'ApartmentController@imageSave');
 });
