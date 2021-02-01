@@ -145,7 +145,7 @@ class ApartmentController extends Controller
 
         if (!$apartment->id) {
             return response([
-                'errors' => ['apartment' => ["apartment doesn\t exists"]],
+                'errors' => ['apartment' => ["apartment doesn't exists"]],
             ], 403);
         }
 
