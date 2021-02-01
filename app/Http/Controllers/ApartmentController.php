@@ -35,6 +35,7 @@ class ApartmentController extends Controller
                     return $query->where('price', '>=', $from);
                 }
             })
+            ->with('images')
             ->paginate(20);
         $body = [
             'meta' => [
@@ -56,7 +57,7 @@ class ApartmentController extends Controller
      */
     public function index(Request $request)
     {
-        $paginate = $request->user()->apartments()->paginate(20);
+        $paginate = $request->user()->apartments()->with('images')->paginate(20);
         $body = [
             'meta' => [
                 'page' => $paginate->currentPage(),
