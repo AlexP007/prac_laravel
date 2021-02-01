@@ -23,18 +23,11 @@ class ApartmentController extends Controller
 
         $paginate = Apartment::orderBy('price', $order)
             ->when($request->get('price'), function ($query, $price) {
-                $from = $price['from'] ?? null;
-                $to = $price['to'] ?? null;
-                if ($from > 0 && $to > 0) {
-                    return $query->whereBetween('price', [$from, $to]);
-                }
-                if (is_null($from) && $to > 0) {
-                    return $query->where('price', '<=', $to);
-                }
-                if ($from > 0 && is_null($to)) {
-                    return $query->where('price', '>=', $from);
-                }
+                $from = $price['from'] ?? 0;
+                $to = $price['to'] ?? Apartment::max('price');
+                return $query->whereBetween('price', [$from, $to]);
             })
+            ->with('images')
             ->paginate(20);
         $body = [
             'meta' => [
@@ -56,7 +49,7 @@ class ApartmentController extends Controller
      */
     public function index(Request $request)
     {
-        $paginate = $request->user()->apartments()->paginate(20);
+        $paginate = $request->user()->apartments()->with('images')->paginate(20);
         $body = [
             'meta' => [
                 'page' => $paginate->currentPage(),
@@ -152,7 +145,7 @@ class ApartmentController extends Controller
 
         if (!$apartment->id) {
             return response([
-                'errors' => ['apartment' => ["apartment doesn\t exists"]],
+                'errors' => ['apartment' => ["apartment doesn't exists"]],
             ], 403);
         }
 
