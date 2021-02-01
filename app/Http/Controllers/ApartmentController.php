@@ -23,17 +23,9 @@ class ApartmentController extends Controller
 
         $paginate = Apartment::orderBy('price', $order)
             ->when($request->get('price'), function ($query, $price) {
-                $from = $price['from'] ?? null;
-                $to = $price['to'] ?? null;
-                if ($from > 0 && $to > 0) {
-                    return $query->whereBetween('price', [$from, $to]);
-                }
-                if (is_null($from) && $to > 0) {
-                    return $query->where('price', '<=', $to);
-                }
-                if ($from > 0 && is_null($to)) {
-                    return $query->where('price', '>=', $from);
-                }
+                $from = $price['from'] ?? 0;
+                $to = $price['to'] ?? Apartment::max('price');
+                return $query->whereBetween('price', [$from, $to]);
             })
             ->with('images')
             ->paginate(20);
